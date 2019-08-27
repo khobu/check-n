@@ -1,0 +1,37 @@
+spring:
+    profiles: local
+    h2:
+      console:
+        enabled: true
+    datasource:
+      url: localhost
+      username: admin1
+      password: secret1
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto: 'create-drop'
+hibernate:
+  dialect: 'org.hibernate.dialect.H2Dialect'
+logging:
+  level:
+    com.cosmiccanine: INFO
+    org.hibernate.SQL: DEBUG
+
+server:
+  port: ${PORT:8080}
+
+---
+spring:
+    profiles: dev
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: 'spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect'
+
+
+---
+spring:
+    profiles: prod
