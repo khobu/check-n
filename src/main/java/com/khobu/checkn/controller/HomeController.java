@@ -2,8 +2,7 @@ package com.khobu.checkn.controller;
 
 
 import com.khobu.checkn.domain.HelloResponse;
-import com.khobu.checkn.service.CustomerService;
-import com.khobu.checkn.service.EmployeeService;
+import com.khobu.checkn.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,7 @@ public class HomeController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
 
 	@Autowired
-	private CustomerService customerService;
-
-	@Autowired
-	private EmployeeService employeeService;
+	private UserService userService;
 
     @GetMapping("/test")
 	String test() {

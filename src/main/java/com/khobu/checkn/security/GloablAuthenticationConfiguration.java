@@ -20,7 +20,7 @@ public class GloablAuthenticationConfiguration extends GlobalAuthenticationConfi
         .usersByUsernameQuery(
             "select username,password,active from credential where username=?")
         .authoritiesByUsernameQuery(
-            "select username, role from employee where username=?")
+            "select username, role from user where username=?")
         .passwordEncoder(new BCryptPasswordEncoder());
 	}
 

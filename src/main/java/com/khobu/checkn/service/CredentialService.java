@@ -8,7 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class CredentialService {
@@ -20,15 +22,22 @@ public class CredentialService {
     private void init(){
 
         Credential credential = new Credential();
-        credential.setUsername("cosmicadmin");
-        credential.setPassword("c0smicc@nine");
+        credential.setUsername("admin");
+        credential.setPassword("admin");
         credential.setActive(true);
-        credential.setUpdatedByEmployeeId(0);
         saveCredential(credential);
     }
 
     @Autowired
     private CredentialRepository credentialRepository;
+
+    public String generateRandomPassword(){
+        String generatedString = "";
+        byte[] array = new byte[7]; // length is bounded by 7
+        new Random().nextBytes(array);
+        generatedString = new String(array, Charset.forName("UTF-8"));
+        return generatedString;
+    }
 
     public List<Credential> retrieveAllCredentials() {
         return credentialRepository.findAll();
