@@ -18,8 +18,6 @@ public class Credential {
     @Column
     private LocalDate updatedDate;
     @Column
-    private long updatedByEmployeeId;
-    @Column
     private boolean active;
 
     @PrePersist
@@ -71,14 +69,6 @@ public class Credential {
 
     public void setUpdatedDate(LocalDate updatedDate) {
         this.updatedDate = updatedDate;
-    }
-
-    public long getUpdatedByEmployeeId() {
-        return updatedByEmployeeId;
-    }
-
-    public void setUpdatedByEmployeeId(long updatedByEmployeeId) {
-        this.updatedByEmployeeId = updatedByEmployeeId;
     }
 
     public boolean isActive() {

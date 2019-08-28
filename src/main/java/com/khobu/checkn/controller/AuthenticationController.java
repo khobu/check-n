@@ -1,13 +1,12 @@
 package com.khobu.checkn.controller;
 
 
-import com.khobu.checkn.annotation.IsAdmin;
 import com.khobu.checkn.config.Salt;
 import com.khobu.checkn.domain.Credential;
 import com.khobu.checkn.domain.Credentials;
-import com.khobu.checkn.domain.Employee;
+import com.khobu.checkn.domain.User;
 import com.khobu.checkn.service.CredentialService;
-import com.khobu.checkn.service.EmployeeService;
+import com.khobu.checkn.service.SessionService;
 import com.khobu.checkn.service.UserService;
 import com.khobu.checkn.util.PasswordUtils;
 import org.slf4j.Logger;
@@ -37,10 +36,10 @@ public class AuthenticationController {
     private CredentialService credentialService;
 
     @Autowired
-    private EmployeeService employeeService;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private SessionService sessionService;
 
     @PostMapping("/login")
     public boolean login(@RequestBody Credentials credentials) {
@@ -55,9 +54,9 @@ public class AuthenticationController {
         isValid =  tempCredential != null && tempCredential.isActive();
 
         if(isValid){
-            List<Employee> employeeList = employeeService.findByUsername(tempCredential.getUsername());
-            if(employeeList.size() == 0){
-                userService.setUser(employeeList.get(0));
+            List<User> userList = userService.findByUsername(tempCredential.getUsername());
+            if(userList.size() == 0){
+                sessionService.setUser(userList.get(0));
             }
         }
 
@@ -65,7 +64,6 @@ public class AuthenticationController {
 
     }
 
-    @IsAdmin
     @PostMapping("/login/create")
     public Credential create(@RequestBody Credentials credentials) {
         LOGGER.info("creating new credentials");
@@ -74,7 +72,6 @@ public class AuthenticationController {
         credential.setUsername(credentials.getUsername());
         credential.setPassword(securePassword);
         credential.setActive(true);
-        credential.setUpdatedByEmployeeId(userService.getUserId());
 
         Credential result = credentialService.saveCredential(credential);
         return result;
@@ -84,7 +81,7 @@ public class AuthenticationController {
     @DeleteMapping("/logout")
     public boolean logout(HttpServletRequest request, HttpServletResponse response) {
         LOGGER.info("attempting to logout");
-        userService.clearUser();
+        sessionService.clearUser();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);

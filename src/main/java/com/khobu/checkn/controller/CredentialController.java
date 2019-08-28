@@ -3,10 +3,10 @@ package com.khobu.checkn.controller;
 
 import com.khobu.checkn.annotation.IsAdmin;
 import com.khobu.checkn.domain.Credential;
-import com.khobu.checkn.domain.Employee;
+import com.khobu.checkn.domain.User;
 import com.khobu.checkn.service.CredentialService;
-import com.khobu.checkn.service.EmployeeService;
 import com.khobu.checkn.service.UserService;
+import com.khobu.checkn.service.SessionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +23,13 @@ public class CredentialController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CredentialController.class);
 
     @Autowired
-    private EmployeeService employeeService;
+    private UserService userService;
 
     @Autowired
     private CredentialService credentialService;
 
     @Autowired
-    private UserService userService;
+    private SessionService sessionService;
 
     @IsAdmin
     @GetMapping("/credentials")
@@ -43,18 +43,17 @@ public class CredentialController {
     @PostMapping("/credentials")
     public ResponseEntity<Credential> createCredential(@RequestBody Credential credential) {
         LOGGER.info("creating credentials");
-        credential.setUpdatedByEmployeeId(userService.getUserId());
         Credential result = credentialService.saveCredential(credential);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/credentials/employee/{id}")
-    public ResponseEntity<Credential> findEmployeeCredential(@PathVariable Long id) {
-        LOGGER.info("finding employee credentials");
-        Employee employee = employeeService.findEmployeeById(id);
+    @GetMapping("/credentials/user/{id}")
+    public ResponseEntity<Credential> findUserCredential(@PathVariable Long id) {
+        LOGGER.info("finding user credentials");
+        User user = userService.findUserById(id);
         Credential result = null;
-        if(employee != null && !employee.getUsername().trim().isEmpty()){
-            result = credentialService.findByUsername(employee.getUsername());
+        if(user != null && !user.getUsername().trim().isEmpty()){
+            result = credentialService.findByUsername(user.getUsername());
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -71,7 +70,6 @@ public class CredentialController {
     @PutMapping("/credentials/{id}")
     public ResponseEntity<Credential> updateCredential(@RequestBody Credential newCredential, @PathVariable Long id) {
         LOGGER.info("updating credentials");
-        newCredential.setUpdatedByEmployeeId(userService.getUserId());
         Credential result = credentialService.updateCredential(newCredential, id);
         return new ResponseEntity<>(result, HttpStatus.OK);
 

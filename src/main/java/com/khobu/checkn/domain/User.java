@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-public class Employee implements Serializable {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,16 +31,11 @@ public class Employee implements Serializable {
     @Column
     private String email;
     @Column
-    private String title;
-    @Column
-    @Enumerated(EnumType.STRING)
-    private EmployeeRole role;
+    private UserRole role = UserRole.ROLE_USER;
     @Column
     private LocalDate createdDate = LocalDate.now();
     @Column
     private LocalDate updatedDate = LocalDate.now();
-    @Column
-    private long updatedByEmployeeId;
     @Column
     private boolean active;
 
@@ -55,7 +50,7 @@ public class Employee implements Serializable {
         updatedDate = LocalDate.now();
     }
 
-    public Employee() {
+    public User() {
     }
 
     public long getId() {
@@ -146,19 +141,11 @@ public class Employee implements Serializable {
         this.email = email;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public EmployeeRole getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(EmployeeRole role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
@@ -176,14 +163,6 @@ public class Employee implements Serializable {
 
     public void setUpdatedDate(LocalDate updatedDate) {
         this.updatedDate = updatedDate;
-    }
-
-    public long getUpdatedByEmployeeId() {
-        return updatedByEmployeeId;
-    }
-
-    public void setUpdatedByEmployeeId(long updatedByEmployeeId) {
-        this.updatedByEmployeeId = updatedByEmployeeId;
     }
 
     public boolean isActive() {
