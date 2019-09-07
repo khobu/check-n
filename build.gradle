@@ -25,16 +25,22 @@ repositories {
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
-	compile('org.springframework.boot:spring-boot-starter-security')
-	compile('org.springframework.session:spring-session-core')
-	compile('org.hibernate:hibernate-search-orm:5.6.1.Final')
-	compile('org.hibernate:hibernate-search-engine:5.6.1.Final')
-	compile('org.springframework.boot:spring-boot-devtools')
-	runtime('com.h2database:h2')
-	runtime('org.postgresql:postgresql')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.security:spring-security-test')
+    implementation "javax.xml.bind:jaxb-api:2.2.11"
+    implementation "com.sun.xml.bind:jaxb-core:2.2.11"
+    implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
+    implementation "javax.activation:activation:1.1.1"
+    compile ('org.hibernate:hibernate-entitymanager:5.4.4.Final')
+    compile ('org.hibernate:hibernate-core:5.4.4.Final')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.session:spring-session-core')
+    compile('org.hibernate:hibernate-search-orm:5.6.1.Final')
+    compile('org.hibernate:hibernate-search-engine:5.6.1.Final')
+    compile('org.springframework.boot:spring-boot-devtools')
+    runtime('com.h2database:h2')
+    runtime('org.postgresql:postgresql')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
